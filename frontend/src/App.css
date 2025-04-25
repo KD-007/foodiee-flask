@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+
+  position: relative;
+  height: 100vh;
+}
+
