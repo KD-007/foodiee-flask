@@ -1,27 +1,24 @@
 import pyodbc
 import os
 
-
-# Fetch the variables
-DB_SERVER = os.getenv('DB_SERVER')
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
-
-
-conn_str = (
-    f'DRIVER={{ODBC Driver 17 for SQL Server}};'
-    f'SERVER={DB_SERVER};'
-    f'DATABASE={DB_NAME};'
-    f'UID={DB_USER};'
-    f'PWD={DB_PASSWORD};'
-)
-
-
-
 def get_db_connection():
-    try:
-        conn = pyodbc.connect(conn_str)
-        return conn
-    except Exception as e:
-        raise e
+    drivers = [
+        'ODBC Driver 17 for SQL Server',  # First try official driver
+        'FreeTDS',                        # Fallback option
+        'SQL Server Native Client 11.0'   # Legacy option
+    ]
+    
+    for driver in drivers:
+        try:
+            conn_str = (
+                f'DRIVER={{{driver}}};'
+                f'SERVER={os.getenv("DB_SERVER")};'
+                f'DATABASE={os.getenv("DB_NAME")};'
+                f'UID={os.getenv("DB_USER")};'
+                f'PWD={os.getenv("DB_PASSWORD")};'
+                'Encrypt=yes;TrustServerCertificate=no;'
+            )
+            return pyodbc.connect(conn_str)
+        except pyodbc.Error as e:
+            last_error = e
+    raise Exception(f"All driver attempts failed. Last error: {str(last_error)}")
