@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e  # Exit on error
 
-# Install Microsoft ODBC driver
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+# Install dependencies (no sudo needed)
+apt-get update -y && apt-get install -y --no-install-recommends \
+    unixodbc-dev \
+    tdsodbc \
+    freetds-bin \
+    gcc
 
-sudo apt-get update
-sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
-sudo apt-get install -y unixodbc-dev gcc
+# Configure FreeTDS
+echo "[FreeTDS]
+Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so
+Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" > /etc/odbcinst.ini
 
 # Install Python dependencies
 pip install -r requirements.txt
