@@ -10,5 +10,4 @@ pyodbc==5.2.0
 stripe==5.5.0
 email-validator==2.0.0
 Werkzeug==3.0.6
-pymssql==2.2.7
 gunicorn
