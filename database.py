@@ -1,16 +1,11 @@
-import pyodbc
 import os
+import pymssql
 
 def get_db_connection():
-    conn_str = (
-        "DRIVER=/usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so;"  # Exact path
-        f"SERVER={os.getenv('DB_SERVER')};"
-        f"DATABASE={os.getenv('DB_NAME')};"
-        f"UID={os.getenv('DB_USER')};"
-        f"PWD={os.getenv('DB_PASSWORD')};"
-        "TDS_Version=8.0;"
-        "Port=1433;"
-        "Encrypt=yes;"  # For Azure SQL
-        "TrustServerCertificate=no;"
+    return pymssql.connect(
+        server=os.getenv('DB_SERVER'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME'),
+        as_dict=True  # Returns results as dictionaries
     )
-    return pyodbc.connect(conn_str)
