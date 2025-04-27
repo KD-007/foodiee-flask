@@ -1,4 +1,4 @@
-from flask import Flask ,send_from_directory 
+from flask import Flask  
 from controllers.user_controller import user_bp
 from controllers.product_controller import product_bp
 from controllers.payment_controlller import payment_bp
@@ -17,10 +17,10 @@ def create_app():
     app = Flask(__name__, static_folder="frontend/build", static_url_path="/")
 
     
-    if os.getenv("FLASK_ENV") == "production":
-        app.config.from_object(ProductionConfig)
-    else:
+    if os.getenv("FLASK_ENV") == "development":
         app.config.from_object(DevelopmentConfig)
+    else:
+        app.config.from_object(ProductionConfig)
         
     api = Api(app)
     jwt = JWTManager(app)
@@ -51,6 +51,8 @@ def create_app():
     
     return app
 
+
 app = create_app()          # Always available
+
 if __name__ == '__main__':  # Still works for direct execution
     app.run()
