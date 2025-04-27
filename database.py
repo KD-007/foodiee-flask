@@ -10,7 +10,7 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 
 conn_str = (
-    f'DRIVER={{SQL Server}};'
+    "DRIVER={ODBC Driver 17 for SQL Server};"
     f'SERVER={DB_SERVER};'
     f'DATABASE={DB_NAME};'
     f'UID={DB_USER};'
