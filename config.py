@@ -14,13 +14,13 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)  # 7 days expiration
     JWT_TOKEN_LOCATION = ['cookies']  # Store token in cookies
     JWT_COOKIE_SECURE = False  # Set to True in production (requires HTTPS)
+    JWT_COOKIE_CSRF_PROTECT = False
     
 
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
     JWT_COOKIE_SECURE = False  # Allow cookies over HTTP (for local dev)
-    JWT_COOKIE_CSRF_PROTECT = False
     
 class ProductionConfig(Config):
     """Production configuration"""
