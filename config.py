@@ -9,7 +9,8 @@ class Config:
     OPENAPI_URL_PREFIX = "/"
     
     # Security
-    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY]")  # Use env variable or default
+    SECRET_KEY = os.getenv('FLASK_SECRET_KEY')   # <-- Flask needs this name
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)  # 7 days expiration
     JWT_TOKEN_LOCATION = ['cookies']  # Store token in cookies
     JWT_COOKIE_SECURE = False  # Set to True in production (requires HTTPS)
@@ -25,9 +26,3 @@ class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
     JWT_COOKIE_SECURE = True  # Enforce HTTPS for cookies
-
-# Dictionary for dynamic configuration selection
-# config_options = {
-#     'development': DevelopmentConfig,
-#     'production': ProductionConfig
-# }
